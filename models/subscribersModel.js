@@ -9,7 +9,7 @@ const subiscribersSchema = new mongoose.Schema({
     },
     firstName: String,
     lastName: String,
-    nascDate: String,
+    birthDate: String,
     tel: String,
     address: String,
     district: String,
