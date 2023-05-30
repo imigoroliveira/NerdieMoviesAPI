@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const subiscribersSchema = new mongoose.Schema({
+const subscriberSchema = new mongoose.Schema({
 
     id: Number,
     status: {
@@ -19,4 +19,4 @@ const subiscribersSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('subscribers', subscribersSchema);
+module.exports = mongoose.model('subscriber', subscriberSchema);

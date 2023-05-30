@@ -26,7 +26,7 @@ class SubscriberController {
         }
       }
 
-      async listSubscribers(req, res) {
+      async listSubscriber(req, res) {
         const usuarios = await subscribeModel.find({});
         res.status(200).json(usuarios);
     } catch (error) {
@@ -35,7 +35,7 @@ class SubscriberController {
 
     
       
-      async listSubscribersByCode(req, res) {
+      async listSubscriberByCode(req, res) {
         const id = req.params.id;
         try {
             const user = await subscribeModel.findOne({ 'id': id});
