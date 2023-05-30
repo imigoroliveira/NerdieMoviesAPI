@@ -12,7 +12,7 @@ const assinanteSchema = new mongoose.Schema({
     state: String,
     status: {
         type: String,
-        enum: ['Ativo', 'Inativo']
+        enum: ['Active', 'Inactive']
     },
     imagem: Buffer
 });
