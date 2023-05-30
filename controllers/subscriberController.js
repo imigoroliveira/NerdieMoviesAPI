@@ -1,4 +1,4 @@
-const subscribeModel = require('../models/subscribeModel');
+const subscribeModel = require('../models/subscriberModel');
 const multer = require('multer');
 const upload = multer();
 
