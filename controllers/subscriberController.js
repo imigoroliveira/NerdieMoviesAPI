@@ -14,24 +14,17 @@ const upload = multer({ storage: storage });
 
 class SubscriberController {
     async createSubscriber(req, res) {
-        try {
-          upload.single('image')(req, res, async function (err) {
-            if (err instanceof multer.MulterError) {
-              return res.status(500).json({ error: 'Error to upload image' });
-            } else if (err) {
-              return res.status(500).json({ error: err.message });
-            }
-            const image = req.file.filename; 
-        
-            const newSubscriber = new subscribeModel(req.body);
-            newSubscriber.image = image; 
-      
-            await newSubscriber.save();
-            res.status(201).json(newSubscriber);
-          });
-        } catch (error) {
-          res.status(500).json({ error: 'Error to create subscriber' });
-        }
+      try {
+        const image = req.file.filename; 
+    
+        const newSubscriber = new subscribeModel(req.body);
+        newSubscriber.image = image; 
+    
+        await newSubscriber.save();
+        res.status(201).json(newSubscriber);
+      } catch (error) {
+        res.status(500).json({ error: 'Error to create subscriber' });
+      }
       }
 
       async listSubscriber(req, res) {
@@ -89,33 +82,53 @@ class SubscriberController {
         }
     
         async upSubscriber(req, res) {
-          const id = req.params.id;
-          const _id = String((await subscribeModel.findOne({ 'id': id }))._id);
-          const upData = {
-            fisrtName: req.body.fisrtName,
-            lastName: req.body.lastName ,
-            birthDate: req.body.birthDate,
-            tel: req.body.tel,
-            address: req.body.address,
-            distric: req.body.distric,
-            city: req.body.cidade,
-            state: req.body.estado,
-            status: req.body.status,
-            image: req.body.imagem
-          };
-          await subscribeModel.findByIdAndUpdate(_id, upData);
-          res.status(200).send();
-        }
-    
-    
-        async delSubscriber(req, res) {
+          try {
             const id = req.params.id;
-            const _id = String((await subscribeModel.findOne({ 'id': id }))._id);
-            await subscribeModel.findByIdAndRemove(String(_id));
-            res.status(200).send({ message: 'Subscriber deleted successfully!' });
-        } catch (error) {
-            res.status(500).json({ error: 'Error to deleted' });
-        };               
+            const subscriber = await subscribeModel.findOne({ 'id': id });
+        
+            if (!subscriber) {
+              return res.status(404).json({ error: 'Subscriber not found' });
+            }
+        
+            const upData = {
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              birthDate: req.body.birthDate,
+              tel: req.body.tel,
+              address: req.body.address,
+              district: req.body.district,
+              city: req.body.city,
+              state: req.body.state,
+              status: req.body.status,
+              image: req.body.image
+            };
+             
+        await subscribeModel.findByIdAndUpdate(subscriber._id, upData);
+        res.status(200).json({ message: 'Subscriber updated successfully' });
+      } catch (error) {
+        res.status(500).json({ error: 'Error updating subscriber' });
+      }
+    }
+
+        async delSubscriber(req, res) {
+          const id = req.params.id;
+        
+          try {
+            const subscriber = await subscribeModel.findOne({ 'id': id });
+        
+            if (!subscriber) {
+              return res.status(404).json({ error: 'Subscriber not found' });
+            }
+        
+            await subscribeModel.findByIdAndRemove(subscriber._id);
+        
+            res.status(200).json({ message: 'Subscriber deleted successfully!' });
+          } catch (error) {
+            res.status(500).json({ error: 'Error deleting subscriber' });
+          }
+        }
+        
+    
     }
     
     module.exports = new SubscriberController();
