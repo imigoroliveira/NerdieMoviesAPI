@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const subscriberSchema = new mongoose.Schema({
 
-    id: Number,
+    id: String,
     status: {
         type: String,
         enum: ['Active', 'Inactive']

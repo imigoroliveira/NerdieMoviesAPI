@@ -1,7 +1,16 @@
 const subscribeModel = require('../models/subscriberModel');
 const multer = require('multer');
-const upload = multer();
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); 
+  }
+});
+
+const upload = multer({ storage: storage });
 
 class SubscriberController {
     async createSubscriber(req, res) {
@@ -10,14 +19,13 @@ class SubscriberController {
             if (err instanceof multer.MulterError) {
               return res.status(500).json({ error: 'Error to upload image' });
             } else if (err) {
-              return res.status(500).json({ error: 'Error to create subscriber' });
+              return res.status(500).json({ error: err.message });
             }
-      
-            const image = req.file.buffer; 
-      
+            const image = req.file.filename; 
+        
             const newSubscriber = new subscribeModel(req.body);
             newSubscriber.image = image; 
-
+      
             await newSubscriber.save();
             res.status(201).json(newSubscriber);
           });
