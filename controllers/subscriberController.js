@@ -102,7 +102,7 @@ class SubscriberController {
               status: req.body.status,
               image: req.body.image
             };
-             
+
         await subscribeModel.findByIdAndUpdate(subscriber._id, upData);
         res.status(200).json({ message: 'Subscriber updated successfully' });
       } catch (error) {
@@ -112,16 +112,13 @@ class SubscriberController {
 
         async delSubscriber(req, res) {
           const id = req.params.id;
-        
           try {
             const subscriber = await subscribeModel.findOne({ 'id': id });
         
             if (!subscriber) {
               return res.status(404).json({ error: 'Subscriber not found' });
             }
-        
             await subscribeModel.findByIdAndRemove(subscriber._id);
-        
             res.status(200).json({ message: 'Subscriber deleted successfully!' });
           } catch (error) {
             res.status(500).json({ error: 'Error deleting subscriber' });
