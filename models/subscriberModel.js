@@ -15,7 +15,7 @@ const subscriberSchema = new mongoose.Schema({
     district: String,
     city: String,
     state: String,
-    imagem: Buffer
+    image: Buffer
 
 });
 

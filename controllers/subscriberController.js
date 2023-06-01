@@ -36,7 +36,7 @@ class SubscriberController {
 
     
       
-      async listSubscriberByCode(req, res) {
+      async listSubscriberById(req, res) {
         const id = req.params.id;
         try {
             const user = await subscribeModel.findOne({ 'id': id});

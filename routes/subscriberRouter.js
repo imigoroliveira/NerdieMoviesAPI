@@ -16,7 +16,7 @@ const upload = multer({ storage: storage });
 
 router.post('/create', upload.single('image'), subscriberController.createSubscriber);
 router.get('/list', subscriberController.listSubscriber);
-router.get('/list/:id', subscriberController.listSubscriberByCode);
+router.get('/list/:id', subscriberController.listSubscriberById);
 router.get('/filter', subscriberController.filterSubscriber);
 router.put('/up/:id', subscriberController.upSubscriber);
 router.delete('/delete/:id', subscriberController.delSubscriber);
